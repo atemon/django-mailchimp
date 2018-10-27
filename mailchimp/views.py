@@ -2,7 +2,7 @@ import datetime
 import re
 
 from django.contrib.contenttypes.models import ContentType
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 
 from .models import Campaign, Queue
@@ -77,10 +77,10 @@ class TestCampaignForObjectReal(ScheduleCampaignForObject):
             self.message_error("And error has occured while trying to send the test mail to you, please try again later")
         return self.json(True)
 
-    
+
 class TestCampaignForObject(ScheduleCampaignForObject):
     template = 'mailchimp/send_test.html'
-    
+
     def handle_get(self):
         referer = self.request.META.get('HTTP_REFERER') or '/'
         data = {
@@ -104,7 +104,7 @@ class CampaignInformation(MailchimpView):
             extra_info = camp.object.mailchimp_get_extra_info()
         data['extra_info'] = extra_info
         return self.render_to_response(data)
-        
+
 
 class WebHook(MailchimpBaseView):
 
@@ -161,7 +161,7 @@ class WebHook(MailchimpBaseView):
         signal.send(sender=self.connection, **kwargs)
         return self.response("ok")
 
-        
+
 class Dequeue(ScheduleCampaignForObject):
 
     def handle_get(self):
@@ -171,7 +171,7 @@ class Dequeue(ScheduleCampaignForObject):
         else:
             self.message_error("An error has occured while trying to dequeue this campaign, please try again later.")
         return self.back()
-        
+
 
 class Cancel(ScheduleCampaignForObject):
 
