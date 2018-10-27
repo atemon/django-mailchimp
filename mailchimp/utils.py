@@ -9,6 +9,7 @@ from django.core.cache import cache
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth import logout
 from django.contrib.messages import debug, info, success, warning, error, add_message
+from django.views.generic import ListView
 from django.http import (
     HttpResponse, HttpResponseForbidden, Http404, HttpResponseNotAllowed,
     HttpResponseRedirect, HttpResponsePermanentRedirect, HttpResponseNotModified,
@@ -167,7 +168,7 @@ class InternalRequest(object):
         cls.kwargs = self.kwargs
 
 
-class BaseView(object):
+class BaseView(ListView):
     """
     A base class to create class based views.
 
